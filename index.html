@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete Weight Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f12;
+    --bg2: #13161b;
+    --bg3: #1a1e25;
+    --bg4: #21262f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0f2f5;
+    --text2: #8a9ab0;
+    --text3: #4d5a6a;
+    --accent: #e8ff47;
+    --accent2: #c8e030;
+    --blue: #4a9eff;
+    --green: #3ddc84;
+    --orange: #ff7a45;
+    --red: #ff4545;
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .print-btn {
+    background: var(--accent);
+    color: #0d0f12;
+    border: none;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .print-btn:hover { background: var(--accent2); }
+  .print-btn:active { transform: scale(0.97); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── MAXES INPUT SECTION ── */
+  .maxes-section {
+    padding: 2rem 0 1.5rem;
+  }
+
+  .section-eyebrow {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--text2);
+    margin-bottom: 1.5rem;
+  }
+
+  .maxes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .maxes-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .max-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .max-card:focus-within {
+    border-color: var(--accent);
+  }
+
+  .max-label {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 8px;
+  }
+
+  .max-input-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .max-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--accent);
+    width: 100%;
+    min-width: 0;
+    caret-color: var(--accent);
+  }
+  .max-input::placeholder { color: var(--bg4); }
+
+  .max-unit {
+    font-family: var(--display);
+    font-size: 14px;
+    color: var(--text3);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── ATHLETE NAME ── */
+  .athlete-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .athlete-label {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text2);
+    white-space: nowrap;
+  }
+  .athlete-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text);
+    flex: 1;
+    min-width: 0;
+  }
+  .athlete-input::placeholder { color: var(--text3); }
+
+  /* ── WEEK TABS ── */
+  .week-nav {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 1.5rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px;
+    overflow-x: auto;
+  }
+
+  .week-tab {
+    flex: 1;
+    min-width: 0;
+    padding: 9px 12px;
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text2);
+    background: transparent;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .week-tab:hover { color: var(--text); background: var(--bg4); }
+
+  .week-tab.active {
+    background: var(--accent);
+    color: #0d0f12;
+  }
+
+  .week-tab .tab-week {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+
+  .week-tab .tab-name {
+    display: block;
+    font-size: 13px;
+  }
+
+  /* ── WEEK CONTENT ── */
+  .week-content { display: none; }
+  .week-content.active { display: block; }
+
+  /* ── WARNING BAR ── */
+  .warning-bar {
+    background: rgba(255, 122, 69, 0.1);
+    border: 1px solid rgba(255, 122, 69, 0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--orange);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .warning-bar::before {
+    content: '⚠';
+    font-size: 14px;
+  }
+
+  /* ── DAY BLOCKS ── */
+  .day-block {
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .day-header {
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .day-number {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .day-name {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .day-exercises {
+    font-size: 12px;
+    color: var(--text3);
+    margin-left: auto;
+  }
+
+  /* ── EXERCISE TABLE ── */
+  .ex-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ex-table thead tr {
+    background: var(--bg2);
+  }
+
+  .ex-table th {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 8px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ex-table th.c { text-align: center; }
+
+  .ex-table tbody tr {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  .ex-table tbody tr:last-child { border-bottom: none; }
+  .ex-table tbody tr:hover { background: var(--bg2); }
+
+  .ex-table td {
+    padding: 12px 16px;
+    vertical-align: middle;
+  }
+
+  .ex-name {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .ex-note {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  .wt-main {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .wt-pct {
+    font-size: 11px;
+    color: var(--text3);
+    text-align: center;
+    margin-top: 2px;
+    font-family: var(--display);
+    letter-spacing: 0.06em;
+  }
+
+  .wt-dz {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .dz1 { color: var(--green); }
+  .dz2 { color: var(--blue); }
+
+  .wt-none {
+    color: var(--text3);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .prescribed {
+    font-size: 12px;
+    color: var(--text3);
+    font-style: italic;
+    text-align: center;
+    display: block;
+  }
+
+  .badge-sets {
+    display: inline-block;
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text2);
+    padding: 3px 9px;
+  }
+
+  .reps-cell {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+    text-align: center;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 2rem;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; color: #111; }
+    :root {
+      --bg: white; --bg2: #f5f5f5; --bg3: #f0f0f0; --bg4: #e8e8e8;
+      --border: #ddd; --border2: #ccc;
+      --text: #111; --text2: #555; --text3: #888;
+      --accent: #5a7a00; --accent2: #4a6600;
+      --blue: #1a5fa8; --green: #1a7a3c; --orange: #c45a00;
+    }
+    .site-header { position: static; background: #f0f0f0; border-bottom: 2px solid #ddd; }
+    .print-btn, .week-nav { display: none !important; }
+    .week-content { display: block !important; }
+    .day-block { break-inside: avoid; }
+    .max-input { font-size: 24px; }
+  }
+
+  @media (max-width: 700px) {
+    .ex-table th:nth-child(4),
+    .ex-table td:nth-child(4) { display: none; }
+    .section-title { font-size: 24px; }
+    .site-header { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    <span class="logo-dot"></span>
+    Athlete Weight Program
+  </div>
+  <button class="print-btn" onclick="window.print()">Print / Save PDF</button>
+</header>
+
+<div class="container">
+
+  <section class="maxes-section">
+    <div class="section-eyebrow">Step 1 — Your profile</div>
+    <div class="section-title">Enter your maxes</div>
+    <div class="section-sub">All weights across every week calculate automatically when you fill these in.</div>
+
+    <div class="athlete-row">
+      <span class="athlete-label">Athlete</span>
+      <input class="athlete-input" id="athleteName" type="text" placeholder="Your name" oninput="updateName()">
+    </div>
+
+    <div class="maxes-grid">
+      <div class="max-card">
+        <div class="max-label">Snatch</div>
+        <div class="max-input-row">
+          <input class="max-input" id="snatch" type="number" min="0" step="2.5" placeholder="0" oninput="renderAll()">
+          <span class="max-unit">lbs</span>
+        </div>
+      </div>
+      <div class="max-card">
+        <div class="max-label">Clean &amp; Jerk</div>
+        <div class="max-input-row">
+          <input class="max-input" id="clean" type="number" min="0" step="2.5" placeholder="0" oninput="renderAll()">
+          <span class="max-unit">lbs</span>
+        </div>
+      </div>
+      <div class="max-card">
+        <div class="max-label">Bench Press</div>
+        <div class="max-input-row">
+          <input class="max-input" id="bench" type="number" min="0" step="2.5" placeholder="0" oninput="renderAll()">
+          <span class="max-unit">lbs</span>
+        </div>
+      </div>
+      <div class="max-card">
+        <div class="max-label">Back Squat</div>
+        <div class="max-input-row">
+          <input class="max-input" id="squat" type="number" min="0" step="2.5" placeholder="0" oninput="renderAll()">
+          <span class="max-unit">lbs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-eyebrow">Step 2 — Your program</div>
+    <div class="section-title" id="programTitle">4-Week End-of-Season Program</div>
+    <div class="section-sub" style="margin-bottom:1rem">3s phase → peak → competition taper. Tap a week to view its workouts.</div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="legend-dot" style="background:var(--accent)"></span>Main set weight</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Drop Zone 1</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Drop Zone 2</div>
+    </div>
+
+    <nav class="week-nav">
+      <button class="week-tab active" onclick="switchWeek(0)">
+        <span class="tab-week">Week 1</span>
+        <span class="tab-name">3s Phase</span>
+      </button>
+      <button class="week-tab" onclick="switchWeek(1)">
+        <span class="tab-week">Week 2</span>
+        <span class="tab-name">3s Phase</span>
+      </button>
+      <button class="week-tab" onclick="switchWeek(2)">
+        <span class="tab-week">Week 3</span>
+        <span class="tab-name">Peak</span>
+      </button>
+      <button class="week-tab" onclick="switchWeek(3)">
+        <span class="tab-week">Week 4</span>
+        <span class="tab-name">Comp / Taper</span>
+      </button>
+    </nav>
+
+    <div id="week-0" class="week-content active"></div>
+    <div id="week-1" class="week-content"></div>
+    <div id="week-2" class="week-content"></div>
+    <div id="week-3" class="week-content"></div>
+  </section>
+</div>
+
+<footer class="site-footer">
+  Based on Dr. Kyle Pierce / LSU Shreveport programming methodology &nbsp;·&nbsp; Round all weights to nearest available plate combination
+</footer>
+
+<script>
+const WEEKS = [
+  { label:'3s Phase', days:[
+    { num:1, name:'Upper', sub:'Hang Snatch · Bench Press · Quarter Squat · Calf Raises', exercises:[
+      {name:'Hang Snatch',   max:'snatch', pcts:[0.900,0.855,0.810], reps:'3', sets:'3'},
+      {name:'Bench Press',   max:'bench',  pcts:[0.838,0.796,0.754], reps:'3', sets:'3'},
+      {name:'Quarter Squat', max:'squat',  pcts:[1.100,1.050,1.000], reps:'3', sets:'3', note:'Supramaximal — above back squat max. Use spotters & safety bars.'},
+      {name:'Calf Raises',   max:null,     reps:'15',  sets:'3'},
+    ]},
+    { num:2, name:'Power', sub:'Hang Clean · Kettle Bell Thrusts · Calf Raises', exercises:[
+      {name:'Hang Clean',        max:'clean', pcts:[0.823,0.781,0.741], reps:'3',  sets:'3'},
+      {name:'Kettle Bell Thrusts', max:null,  reps:'8',  sets:'3'},
+      {name:'Calf Raises',       max:null,    reps:'15', sets:'3'},
+    ]},
+    { num:3, name:'Unilateral', sub:'SL Snatch · Low Box Step Up · Reverse Hyper · Pull Ups', exercises:[
+      {name:'SL Snatch',                 max:'snatch', pcts:[0.750,0.713,0.675], reps:'3',     sets:'3', note:'Single-leg — lighter to accommodate balance demand'},
+      {name:'Low Box Explosive Step Up', max:null,     reps:'6/leg', sets:'3'},
+      {name:'Modified Reverse Hyper',    max:null,     reps:'12',    sets:'3'},
+      {name:'Pull Ups',                  max:null,     reps:'10',    sets:'3'},
+    ]},
+  ]},
+  { label:'3s Phase', days:[
+    { num:1, name:'Upper', sub:'Hang Snatch · Bench Press · Quarter Squat · Calf Raises', exercises:[
+      {name:'Hang Snatch',   max:'snatch', pcts:[0.927,0.880,0.835], reps:'3', sets:'3'},
+      {name:'Bench Press',   max:'bench',  pcts:[0.863,0.820,0.777], reps:'3', sets:'3'},
+      {name:'Quarter Squat', max:'squat',  pcts:[1.150,1.100,1.050], reps:'3', sets:'3', note:'Supramaximal — above back squat max. Use spotters & safety bars.'},
+      {name:'Calf Raises',   max:null,     reps:'15',  sets:'3'},
+    ]},
+    { num:2, name:'Power', sub:'Hang Clean · Kettle Bell Thrusts · Calf Raises', exercises:[
+      {name:'Hang Clean',          max:'clean', pcts:[0.847,0.804,0.763], reps:'3',  sets:'3'},
+      {name:'Kettle Bell Thrusts', max:null,    reps:'8',  sets:'3'},
+      {name:'Calf Raises',         max:null,    reps:'15', sets:'3'},
+    ]},
+    { num:3, name:'Unilateral', sub:'SL Snatch · Low Box Step Up · Reverse Hyper · Pull Ups', exercises:[
+      {name:'SL Snatch',                 max:'snatch', pcts:[0.775,0.736,0.698], reps:'3',     sets:'3', note:'Single-leg — lighter to accommodate balance demand'},
+      {name:'Low Box Explosive Step Up', max:null,     reps:'6/leg', sets:'3'},
+      {name:'Modified Reverse Hyper',    max:null,     reps:'12',    sets:'3'},
+      {name:'Pull Ups',                  max:null,     reps:'10',    sets:'3'},
+    ]},
+  ]},
+  { label:'Peak', days:[
+    { num:1, name:'Upper', sub:'Hang Snatch · Bench Press · Quarter Squat · Calf Raises', exercises:[
+      {name:'Hang Snatch',   max:'snatch', pcts:[0.955,0.907,0.860], reps:'3', sets:'3'},
+      {name:'Bench Press',   max:'bench',  pcts:[0.889,0.845,0.802], reps:'3', sets:'3'},
+      {name:'Quarter Squat', max:'squat',  pcts:[1.200,1.150,1.100], reps:'3', sets:'3', note:'Supramaximal — above back squat max. Use spotters & safety bars.'},
+      {name:'Calf Raises',   max:null,     reps:'15',  sets:'3'},
+    ]},
+    { num:2, name:'Power', sub:'Hang Clean · Kettle Bell Thrusts · Calf Raises', exercises:[
+      {name:'Hang Clean',          max:'clean', pcts:[0.873,0.830,0.786], reps:'3',  sets:'3'},
+      {name:'Kettle Bell Thrusts', max:null,    reps:'8',  sets:'3'},
+      {name:'Calf Raises',         max:null,    reps:'15', sets:'3'},
+    ]},
+    { num:3, name:'Unilateral', sub:'SL Snatch · Low Box Step Up · Reverse Hyper · Pull Ups', exercises:[
+      {name:'SL Snatch',                 max:'snatch', pcts:[0.800,0.760,0.722], reps:'3',     sets:'3', note:'Single-leg — lighter to accommodate balance demand'},
+      {name:'Low Box Explosive Step Up', max:null,     reps:'6/leg', sets:'3'},
+      {name:'Modified Reverse Hyper',    max:null,     reps:'12',    sets:'3'},
+      {name:'Pull Ups',                  max:null,     reps:'10',    sets:'3'},
+    ]},
+  ]},
+  { label:'Comp / Taper', days:[
+    { num:1, name:'Upper — Reduced Volume', sub:'Hang Snatch · Bench Press · Quarter Squat · Calf Raises', exercises:[
+      {name:'Hang Snatch',   max:'snatch', pcts:[0.900,0.855,null],  reps:'2', sets:'2'},
+      {name:'Bench Press',   max:'bench',  pcts:[0.750,null,null],   reps:'2', sets:'3'},
+      {name:'Quarter Squat', max:'squat',  pcts:[1.050,1.000,null],  reps:'2', sets:'3', note:'Supramaximal — above back squat max. Use spotters & safety bars.'},
+      {name:'Calf Raises',   max:null,     reps:'12', sets:'2'},
+    ]},
+    { num:2, name:'Power — Reduced Volume', sub:'Hang Clean · Kettle Bell Thrusts · Calf Raises', exercises:[
+      {name:'Hang Clean',          max:'clean', pcts:[0.800,null,null], reps:'2', sets:'2'},
+      {name:'Kettle Bell Thrusts', max:null,    reps:'6', sets:'2'},
+      {name:'Calf Raises',         max:null,    reps:'12', sets:'2'},
+    ]},
+    { num:3, name:'Unilateral — Reduced Volume', sub:'SL Snatch · Low Box Step Up · Reverse Hyper · Pull Ups', exercises:[
+      {name:'SL Snatch',                 max:'snatch', pcts:[0.650,null,null], reps:'2',     sets:'2', note:'Single-leg — lighter to accommodate balance demand'},
+      {name:'Low Box Explosive Step Up', max:null,     reps:'4/leg', sets:'2'},
+      {name:'Modified Reverse Hyper',    max:null,     reps:'10',    sets:'2'},
+      {name:'Pull Ups',                  max:null,     reps:'8',     sets:'2'},
+    ]},
+  ]},
+];
+
+function getMax(id) {
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) || v <= 0 ? null : v;
+}
+
+function calcWt(maxKey, pct) {
+  const m = getMax(maxKey);
+  if (!m || !pct) return null;
+  return Math.round(m * pct / 2.5) * 2.5;
+}
+
+function fmtWt(w) {
+  if (w === null) return null;
+  return w % 1 === 0 ? w + ' lbs' : w.toFixed(1) + ' lbs';
+}
+
+function renderWeek(wIdx) {
+  const wk = WEEKS[wIdx];
+  const el = document.getElementById('week-' + wIdx);
+  let html = '';
+
+  if (wIdx === 3) {
+    html += `<div class="warning-bar">Taper week — volume and load are significantly reduced. Do not add extra work before competition.</div>`;
+  }
+
+  for (const day of wk.days) {
+    html += `<div class="day-block">
+<div class="day-header">
+  <span class="day-number">Day ${day.num}</span>
+  <span class="day-name">${day.name}</span>
+  <span class="day-exercises">${day.sub}</span>
+</div>
+<table class="ex-table">
+<thead><tr>
+  <th style="width:30%">Exercise</th>
+  <th class="c" style="width:17%">Main set</th>
+  <th class="c" style="width:15%">Drop zone 1</th>
+  <th class="c" style="width:15%">Drop zone 2</th>
+  <th class="c" style="width:10%">Reps</th>
+  <th class="c" style="width:8%">Sets</th>
+</tr></thead><tbody>`;
+
+    for (const ex of day.exercises) {
+      const [p0,p1,p2] = ex.pcts || [null,null,null];
+      const w0 = ex.max ? calcWt(ex.max, p0) : null;
+      const w1 = ex.max ? calcWt(ex.max, p1) : null;
+      const w2 = ex.max ? calcWt(ex.max, p2) : null;
+
+      let mainCell;
+      if (!ex.max) {
+        mainCell = `<span class="prescribed">Coach prescribed</span>`;
+      } else if (w0 === null) {
+        mainCell = `<div class="wt-main" style="color:var(--text3);font-size:13px">Enter max</div>`;
+      } else {
+        mainCell = `<div class="wt-main">${fmtWt(w0)}</div><div class="wt-pct">${Math.round(p0*100)}%</div>`;
+      }
+
+      const dz1 = (ex.max && p1 && w1 !== null) ? `<div class="wt-dz dz1">${fmtWt(w1)}</div><div class="wt-pct">${Math.round(p1*100)}%</div>` : `<span class="wt-none">—</span>`;
+      const dz2 = (ex.max && p2 && w2 !== null) ? `<div class="wt-dz dz2">${fmtWt(w2)}</div><div class="wt-pct">${Math.round(p2*100)}%</div>` : `<span class="wt-none">—</span>`;
+
+      html += `<tr>
+<td><div class="ex-name">${ex.name}</div>${ex.note ? `<div class="ex-note">${ex.note}</div>` : ''}</td>
+<td style="text-align:center">${mainCell}</td>
+<td style="text-align:center">${dz1}</td>
+<td style="text-align:center">${dz2}</td>
+<td class="reps-cell">×${ex.reps}</td>
+<td style="text-align:center"><span class="badge-sets">${ex.sets}×</span></td>
+</tr>`;
+    }
+
+    html += `</tbody></table></div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+function renderAll() {
+  for (let i = 0; i < 4; i++) renderWeek(i);
+}
+
+function switchWeek(idx) {
+  document.querySelectorAll('.week-content').forEach((el, i) => el.classList.toggle('active', i === idx));
+  document.querySelectorAll('.week-tab').forEach((el, i) => el.classList.toggle('active', i === idx));
+}
+
+function updateName() {
+  const name = document.getElementById('athleteName').value.trim();
+  document.getElementById('programTitle').textContent = name
+    ? name + "'s 4-Week End-of-Season Program"
+    : '4-Week End-of-Season Program';
+}
+
+renderAll();
+</script>
+</body>
+</html>
